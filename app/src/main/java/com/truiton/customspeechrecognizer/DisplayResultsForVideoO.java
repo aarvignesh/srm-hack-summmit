@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class DisplayResultsForVideoO extends AppCompatActivity {
@@ -15,6 +16,10 @@ public class DisplayResultsForVideoO extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_results_for_o);
 
+        String VIDEO_URI = getIntent().getStringExtra("VIDEO_URI");
+        String MODE = getIntent().getStringExtra("MODE");
+        String START = getIntent().getStringExtra("START");
+
         VideoView videoView =(VideoView)findViewById(R.id.videoView);
 
         //Creating MediaController
@@ -22,7 +27,7 @@ public class DisplayResultsForVideoO extends AppCompatActivity {
         mediaController.setAnchorView(videoView);
 
         //specify the location of media file
-        Uri uri=Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/1.mp4");
+        Uri uri=Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/"+VIDEO_URI);
         Log.d("URIII",uri.toString());
 
         //Setting MediaController and URI, then starting the videoView
@@ -31,6 +36,9 @@ public class DisplayResultsForVideoO extends AppCompatActivity {
         videoView.setVideoURI(uri);
         videoView.requestFocus();
         videoView.start();
-        videoView.seekTo(12000);
+        Double time=Double.parseDouble(START)*1000;
+        int inttime = (int) Math.round(time);
+        Toast.makeText(this, String.valueOf(time), Toast.LENGTH_SHORT).show();
+        videoView.seekTo(inttime);
     }
 }
